@@ -78,6 +78,22 @@ def listagem():
             f"{camiseta['id']:4d} {camiseta['modelo']:20s} {camiseta['marca']:15s} {float(camiseta['preco']):9.2f}"
         )
 
+def deletar():
+    titulo("Deletar Camiseta", "=")
+
+    if token == "":
+        print("Erro... Você precisa fazer login para deletar camisetas")
+        return
+
+    codigo = int(input("Código da Camiseta: "))
+
+    response = requests.delete(f"{url}/{codigo}",
+                               headers={"Authorization": f"Bearer {token}"})
+
+    if response.status_code == 20:
+        print("Ok! Camiseta deletada com sucesso")
+    else:
+        print("Erro... Não foi possível deletar a camiseta")
 
 def grafico_media_preco():
     response = requests.get(url)
@@ -131,23 +147,6 @@ def grafico_quantidade_marca():
 
     plt.show()
 
-
-def deletar():
-    titulo("Deletar Camiseta", "=")
-
-    if token == "":
-        print("Erro... Você precisa fazer login para deletar camisetas")
-        return
-
-    codigo = int(input("Código da Camiseta: "))
-
-    response = requests.delete(f"{url}/{codigo}",
-                               headers={"Authorization": f"Bearer {token}"})
-
-    if response.status_code == 200:
-        print("Ok! Camiseta deletada com sucesso")
-    else:
-        print("Erro... Não foi possível deletar a camiseta")
 
 def titulo(texto, traco="-"):
     print()
